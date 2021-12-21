@@ -1,4 +1,5 @@
-select c_custkey,
+select
+	c_custkey,
 	c_name,
 	sum(l_extendedprice * (1 - l_discount)) as revenue,
 	c_acctbal,
@@ -28,4 +29,5 @@ group by
 	c_comment
 order by
 	revenue desc
-limit 20;
+limit
+	20;
