@@ -2,20 +2,20 @@ select
     s_name,
     s_address
 from
-    SUPPLIER,
-    NATION
+    supplier,
+    nation
 where
     s_suppkey in (
         select
             ps_suppkey
         from
-            PARTSUPP
+            partsupp
         where
             ps_partkey in (
                 select
                     p_partkey
                 from
-                    PART
+                    part
                 where
                     p_name like 'green%'
             )
@@ -23,7 +23,7 @@ where
                 select
                     0.5 * sum(l_quantity)
                 from
-                    LINEITEM
+                    lineitem
                 where
                     l_partkey = ps_partkey
                     and l_suppkey = ps_suppkey

@@ -8,14 +8,14 @@ from
             substring(c_phone, 1, 2) as cntrycode,
             c_acctbal
         from
-            CUSTOMER
+            customer
         where
             substring(c_phone, 1, 2) in ('20', '40', '22', '30', '39', '42', '21')
             and c_acctbal > (
                 select
                     avg(c_acctbal)
                 from
-                    CUSTOMER
+                    customer
                 where
                     c_acctbal > 0.00
                     and substring(c_phone, 1, 2) in ('20', '40', '22', '30', '39', '42', '21')
@@ -24,7 +24,7 @@ from
                 select
                     *
                 from
-                    ORDERS
+                    orders
                 where
                     o_custkey = c_custkey
             )
