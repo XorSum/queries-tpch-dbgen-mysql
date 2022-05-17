@@ -7,7 +7,7 @@ Implementation TPC-H schema into MySQL DBMS: TUTORIAL
 Unzip the downloaded file
 Navigate through the command line to DBGEN folder  
 ```
-$ cd Downloads/tpch_2_16_0/tpch_2_15_0/dbgen/
+$ cd Downloads/TPC-H_Tools_v3.0.0/dbgen/
 ```  
 
 Make a copy of the dummy makefile  
@@ -15,7 +15,7 @@ Make a copy of the dummy makefile
 $ cp makefile.suite makefile
 ```  
 
-In dbgen folder find the created makefile and insert highlighted values (bold) to this file.  
+In dbgen folder find the created makefile and insert values of `CC`, `DATABASE`, `MACHINE` and `WORKLOAD` to this file.  
 ```
 ################
 ## CHANGE NAME OF ANSI COMPILER HERE
@@ -26,20 +26,20 @@ CC      = gcc
 # Current values for MACHINE are:  ATT, DOS, HP, IBM, ICL, MVS, 
 #                                  SGI, SUN, U2200, VMS, LINUX, WIN32 
 # Current values for WORKLOAD are:  TPCH
-DATABASE= *SQLSERVER*
-MACHINE = *LINUX*
-WORKLOAD = *TPCH*
+DATABASE= MYSQL
+MACHINE = LINUX
+WORKLOAD = TPCH
 #
 ...
 ```  
 
-In dbgen folder find the *tpcd.h* file and edit higlighted (bold) values for SQLSERVER.  
+In dbgen folder find the *tpcd.h* file and add the following code to this file in the appropriate place.  
 ```
 ...
-#ifdef  SQLSERVER
+#ifdef  MYSQL
 #define GEN_QUERY_PLAN  "set showplan on\nset noexec on\ngo\n"
-#define START_TRAN      "**BEGIN WORK;**"
-#define END_TRAN        "**COMMIT WORK;**"
+#define START_TRAN      "BEGIN WORK;"
+#define END_TRAN        "COMMIT WORK;"
 #define SET_OUTPUT      ""
 #define SET_ROWCOUNT    "limit %d;\n\n"
 #define SET_DBASE       "use %s;\n"
