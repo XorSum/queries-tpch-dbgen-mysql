@@ -161,24 +161,24 @@ alter table part
 add primary key (p_partkey);
 alter table supplier  
 add primary key (s_suppkey);
-alter table supplier
-add foreign key supplier_fk1 (s_nationkey) references nation(n_nationkey);
 alter table partsupp
 add primary key (ps_partkey,ps_suppkey);
 alter table customer
 add primary key (c_custkey);
-alter table customer
-add foreign key customer_fk1 (c_nationkey) references nation(n_nationkey);
 alter table lineitem
 add primary key (l_orderkey,l_linenumber);
+alter table orders 
+add primary key (o_orderkey);
+alter table supplier
+add foreign key supplier_fk1 (s_nationkey) references nation(n_nationkey);
+alter table customer
+add foreign key customer_fk1 (c_nationkey) references nation(n_nationkey);
 alter table partsupp
 add foreign key partsupp_fk1 (ps_suppkey) references supplier(s_suppkey);
 alter table partsupp
 add foreign key partsupp_fk2 (ps_partkey) references part(p_partkey);
 alter table orders
 add foreign key orders_fk1 (o_custkey) references customer(c_custkey);
-alter table orders 
-add primary key (o_orderkey);
 alter table lineitem
 add foreign key lineitem_fk1 (l_orderkey)  references orders(o_orderkey);
 alter table lineitem
