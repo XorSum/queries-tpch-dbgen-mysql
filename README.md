@@ -138,51 +138,35 @@ create table lineitem ( l_orderkey    integer not null,
 
 Populate tables with generated dummy data.  
 ```
+load data local infile 'region.tbl' into table region fields terminated by '|';
+load data local infile 'nation.tbl' into table nation fields terminated by '|';
+load data local infile 'supplier.tbl' into table supplier fields terminated by '|';
 load data local infile 'customer.tbl' into table customer fields terminated by '|';
+load data local infile 'part.tbl' into table part fields terminated by '|';
+load data local infile 'partsupp.tbl' into table partsupp fields terminated by '|';
 load data local infile 'orders.tbl' into table orders fields terminated by '|';
 load data local infile 'lineitem.tbl' into table lineitem fields terminated by '|';
-load data local infile 'nation.tbl' into table nation fields terminated by '|';
-load data local infile 'partsupp.tbl' into table partsupp fields terminated by '|';
-load data local infile 'part.tbl' into table part fields terminated by '|';
-load data local infile 'region.tbl' into table region fields terminated by '|';
-load data local infile 'supplier.tbl' into table supplier fields terminated by '|';
 ```  
 
 Alter the schema dependencies (The original statement can be found in dss.ri. This is my modified version in order to work with MySQL.)
 
 ```
-alter table region
-add primary key (r_regionkey);
-alter table nation
-add primary key (n_nationkey);
-alter table nation
-add foreign key nation_fk1 (n_regionkey) references region(r_regionkey);
-alter table part
-add primary key (p_partkey);
-alter table supplier  
-add primary key (s_suppkey);
-alter table partsupp
-add primary key (ps_partkey,ps_suppkey);
-alter table customer
-add primary key (c_custkey);
-alter table lineitem
-add primary key (l_orderkey,l_linenumber);
-alter table orders 
-add primary key (o_orderkey);
-alter table supplier
-add foreign key supplier_fk1 (s_nationkey) references nation(n_nationkey);
-alter table customer
-add foreign key customer_fk1 (c_nationkey) references nation(n_nationkey);
-alter table partsupp
-add foreign key partsupp_fk1 (ps_suppkey) references supplier(s_suppkey);
-alter table partsupp
-add foreign key partsupp_fk2 (ps_partkey) references part(p_partkey);
-alter table orders
-add foreign key orders_fk1 (o_custkey) references customer(c_custkey);
-alter table lineitem
-add foreign key lineitem_fk1 (l_orderkey)  references orders(o_orderkey);
-alter table lineitem
-add foreign key lineitem_fk2 (l_partkey,l_suppkey) references partsupp(ps_partkey, ps_suppkey);
+alter table region   add primary key (r_regionkey);
+alter table nation   add primary key (n_nationkey);
+alter table supplier add primary key (s_suppkey);
+alter table customer add primary key (c_custkey);
+alter table part     add primary key (p_partkey);
+alter table partsupp add primary key (ps_partkey,ps_suppkey);
+alter table orders   add primary key (o_orderkey);
+alter table lineitem add primary key (l_orderkey,l_linenumber);
+alter table nation   add foreign key nation_fk1   (n_regionkey)         references region   (r_regionkey);
+alter table supplier add foreign key supplier_fk1 (s_nationkey)         references nation   (n_nationkey);
+alter table customer add foreign key customer_fk1 (c_nationkey)         references nation   (n_nationkey);
+alter table partsupp add foreign key partsupp_fk1 (ps_suppkey)          references supplier (s_suppkey);
+alter table partsupp add foreign key partsupp_fk2 (ps_partkey)          references part     (p_partkey);
+alter table orders   add foreign key orders_fk1   (o_custkey)           references customer (c_custkey);
+alter table lineitem add foreign key lineitem_fk1 (l_orderkey)          references orders   (o_orderkey);
+alter table lineitem add foreign key lineitem_fk2 (l_partkey,l_suppkey) references partsupp (ps_partkey, ps_suppkey);
 ``` 
 
 Now you can run your test the queries uploaded in this repository.
